@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context=".mine.activity.SettingActivity">
+
+    <com.worldpeak.chnsmilead.view.CommonTitleBar
+        android:id="@+id/titleBar"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_marginTop="30dp"
+        app:title="隐私政策"
+        app:titleColor="#D8000000"
+        app:titleSize="16sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:text="中国微校用户隐私政策"
+        android:textColor="#D8000000"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="27dp"
+        android:layout_marginEnd="16dp"
+        android:lineSpacingExtra="5dp"
+        android:text="欢迎您访问中国微校APP，当您使用我们的产品与/或服务时，我们可能会收集和使用您的相关信息。在使用我们的产品或服务前，请您务必仔细阅读《中国微校用户隐私政策》了解我们对您个人信息的处理规则，包括:"
+        android:textColor="#D8000000"
+        android:textSize="14sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="16dp"
+        android:lineSpacingExtra="5dp"
+        android:text="我们如何收集和使用您的个人信息\n我们如何使用 Cookie 和同类技术\n我们如何共享、转让、公开披露用户的个人信息\n我们如何存储收集的用户信息\n我们如何保证收集的用户信息安全\n您如何管理个人信息\n未成年人保护"
+        android:textColor="#D8000000"
+        android:textSize="14sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="16dp"
+        android:lineSpacingExtra="5dp"
+        android:text="如您同意《中国微校用户隐私政策》和《服务协议》请点击“同意”开始使用我们的产品和服务，我们将按照法律法规要求，采取严格的安全保护措施，尽全力保护您的个人信息安全!"
+        android:textColor="#D8000000"
+        android:textSize="14sp" />
+
+</LinearLayout>

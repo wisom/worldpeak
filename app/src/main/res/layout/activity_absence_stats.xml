@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context=".home.activity.ComplaintAdviceAddActivity">
+
+    <com.worldpeak.chnsmilead.view.CommonTitleBar
+        android:id="@+id/titleBar"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_marginTop="30dp"
+        app:title="缺勤统计"
+        app:titleColor="#D8000000"
+        app:titleSize="16sp" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="50dp">
+
+            <TextView
+                android:id="@+id/tvDay"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/selector_date_select"
+                android:gravity="center"
+                android:text="日"
+                android:textColor="@drawable/selector_datetext_unselect"
+                android:textSize="10sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvMonth"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/selector_date_select"
+                android:gravity="center"
+                android:text="月"
+                android:textColor="@drawable/selector_datetext_unselect"
+                android:textSize="10sp"
+                app:layout_constraintStart_toEndOf="@+id/tvDay"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="38dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/shape_bg_white_radius_5_stroke"
+                android:paddingStart="15dp"
+                android:paddingEnd="15dp"
+                app:layout_constraintBottom_toBottomOf="@+id/tvDay"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tvDay">
+
+                <TextView
+                    android:id="@+id/tvDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textColor="#2D3140"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="2021-12-9" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginEnd="5dp"
+                    android:src="@drawable/iv_date"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvDate"
+                    app:layout_constraintEnd_toStartOf="@+id/tvDate"
+                    app:layout_constraintTop_toTopOf="@+id/tvDate" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:id="@+id/line1"
+                android:layout_width="4dp"
+                android:layout_height="16dp"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="18dp"
+                android:background="#1D6FE9"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvDay" />
+
+            <TextView
+                android:id="@+id/tvStudentTip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:text="学生缺勤数"
+                android:textColor="@color/black_65"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@+id/line1"
+                app:layout_constraintStart_toEndOf="@+id/line1"
+                app:layout_constraintTop_toTopOf="@+id/line1" />
+
+            <TextView
+                android:id="@+id/tvStudentAbsenceCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="46dp"
+                android:textColor="#F5894E"
+                android:textSize="28sp"
+                android:translationY="-2dp"
+                app:layout_constraintBottom_toBottomOf="@+id/line1"
+                app:layout_constraintStart_toEndOf="@+id/tvStudentTip"
+                app:layout_constraintTop_toTopOf="@+id/line1"
+                tools:text="1569589" />
+
+            <LinearLayout
+                android:id="@+id/llStudent"
+                android:layout_width="0dp"
+                android:layout_height="42dp"
+                android:layout_marginStart="23dp"
+                android:layout_marginTop="19dp"
+                android:layout_marginEnd="23dp"
+                android:background="@drawable/shape_bg_gray_radius_10dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/line1">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="学生姓名"
+                    android:textColor="#2D3140"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="学校"
+                    android:textColor="#2D3140"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="班级"
+                    android:textColor="#2D3140"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="日期"
+                    android:textColor="#2D3140"
+                    android:textSize="13sp" />
+
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvStudentAbsence"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="23dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="23dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/llStudent"
+                tools:itemCount="5"
+                tools:listitem="@layout/layout_absence_item" />
+
+            <View
+                android:id="@+id/line2"
+                android:layout_width="4dp"
+                android:layout_height="16dp"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="20dp"
+                android:background="#1D6FE9"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rvStudentAbsence" />
+
+            <TextView
+                android:id="@+id/tvTeacherTip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:text="教师缺勤总数"
+                android:textColor="@color/black_65"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@+id/line2"
+                app:layout_constraintStart_toEndOf="@+id/line2"
+                app:layout_constraintTop_toTopOf="@+id/line2" />
+
+            <TextView
+                android:id="@+id/tvTeacherAbsenceCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="46dp"
+                android:textColor="#F5894E"
+                android:textSize="28sp"
+                android:translationY="-2dp"
+                app:layout_constraintBottom_toBottomOf="@+id/line2"
+                app:layout_constraintStart_toEndOf="@+id/tvTeacherTip"
+                app:layout_constraintTop_toTopOf="@+id/line2"
+                tools:text="1569589" />
+
+            <LinearLayout
+                android:id="@+id/llTeacher"
+                android:layout_width="0dp"
+                android:layout_height="42dp"
+                android:layout_marginStart="23dp"
+                android:layout_marginTop="19dp"
+                android:layout_marginEnd="23dp"
+                android:background="@drawable/shape_bg_gray_radius_10dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/line2">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="教师姓名"
+                    android:textColor="#2D3140"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="学校"
+                    android:textColor="#2D3140"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="单位"
+                    android:textColor="#2D3140"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="日期"
+                    android:textColor="#2D3140"
+                    android:textSize="13sp" />
+
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvTeacherAbsence"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="23dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="23dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/llTeacher"
+                tools:itemCount="5"
+                tools:listitem="@layout/layout_absence_item" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+</LinearLayout>

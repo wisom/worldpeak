@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/clAttach"
+    android:layout_width="match_parent"
+    android:layout_height="53dp"
+    android:layout_marginStart="13dp"
+    android:layout_marginTop="18dp"
+    android:layout_marginEnd="13dp"
+    android:background="@drawable/shape_bg_white_radius_8dp"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/tvContent">
+
+    <ImageView
+        android:id="@+id/ivAttach"
+        android:layout_width="30dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="11dp"
+        android:src="@drawable/ic_word"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvAttach"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:maxLines="1"
+        android:textColor="@color/black_85"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ivAttach"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="飘飘乎如遗世独立，羽化而登仙.word" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,103 @@
+package com.worldpeak.chnsmilead;
+
+import android.app.Application;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.Build;
+
+import androidx.annotation.NonNull;
+
+import com.drake.tooltip.ToastConfig;
+import com.drake.tooltip.interfaces.ToastGravityFactory;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.DefaultRefreshFooterCreator;
+import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreator;
+import com.scwang.smartrefresh.layout.api.RefreshFooter;
+import com.scwang.smartrefresh.layout.api.RefreshHeader;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
+import com.scwang.smartrefresh.layout.header.ClassicsHeader;
+import com.tencent.bugly.crashreport.CrashReport;
+import com.tencent.mm.opensdk.constants.ConstantsAPI;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+import com.worldpeak.chnsmilead.constant.Constants;
+import com.worldpeak.chnsmilead.util.ConfigurationManager;
+
+public class MyApp extends Application {
+
+    private static MyApp mInstance;
+
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        mInstance = this;
+
+        SmartRefreshLayout.setDefaultRefreshFooterCreator(new DefaultRefreshFooterCreator() {
+            @NonNull
+            @Override
+            public RefreshFooter createRefreshFooter(@NonNull Context context, @NonNull RefreshLayout layout) {
+                return new ClassicsFooter(context);
+            }
+        });
+        SmartRefreshLayout.setDefaultRefreshHeaderCreator(new DefaultRefreshHeaderCreator() {
+            @NonNull
+            @Override
+            public RefreshHeader createRefreshHeader(@NonNull Context context, @NonNull RefreshLayout layout) {
+                return new ClassicsHeader(context);
+            }
+        });
+
+        // 初始化
+        ConfigurationManager.create(this);
+        ToastConfig.initialize(this, new ToastGravityFactory());
+
+        regToWx();
+
+        initBugly();
+    }
+
+    public static CrashReport.UserStrategy strategy;
+
+    private void initBugly() {
+        strategy = new CrashReport.UserStrategy(this);
+        CrashReport.initCrashReport(getApplicationContext(), Constants.BUGLY_APPID, BuildConfig.DEBUG, strategy);
+    }
+
+    private static IWXAPI api = null;
+
+    /**
+     * 微信登录
+     */
+    private void regToWx() {
+        // 通过WXAPIFactory工厂，获取IWXAPI的实例
+        api = WXAPIFactory.createWXAPI(this, Constants.WX_APP_ID, true);
+
+        // 将应用的appId注册到微信
+        api.registerApp(Constants.WX_APP_ID);
+
+        //建议动态监听微信启动广播进行注册到微信
+        registerReceiver(new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                // 将该app注册到微信
+                api.registerApp(Constants.WX_APP_ID);
+            }
+        }, new IntentFilter(ConstantsAPI.ACTION_REFRESH_WXAPP));
+    }
+
+    public IWXAPI getWxApi() {
+        return api;
+    }
+
+    public static MyApp getInstance() {
+        return mInstance;
+    }
+
+    public static Context getContext() {
+        return mInstance;
+    }
+}

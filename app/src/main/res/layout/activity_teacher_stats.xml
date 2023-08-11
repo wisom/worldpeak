@@ -1,0 +1,626 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context=".home.activity.ComplaintAdviceAddActivity">
+
+    <com.worldpeak.chnsmilead.view.CommonTitleBar
+        android:id="@+id/titleBar"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_marginTop="30dp"
+        app:title="教师统计"
+        app:titleColor="#D8000000"
+        app:titleSize="16sp" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#F4F8FC"
+            android:orientation="vertical"
+            android:paddingBottom="50dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clClass"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="14dp"
+                android:background="@color/white"
+                android:paddingStart="17dp"
+                android:paddingTop="16dp"
+                android:paddingBottom="18dp"
+                app:layout_constraintEnd_toStartOf="@+id/clMan"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <View
+                    android:id="@+id/line1"
+                    android:layout_width="4dp"
+                    android:layout_height="16dp"
+                    android:background="#1D6FE9"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="7dp"
+                    android:maxLines="1"
+                    android:text="教师女生人数"
+                    android:textColor="@color/black_40"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/line1"
+                    app:layout_constraintStart_toEndOf="@+id/line1"
+                    app:layout_constraintTop_toTopOf="@+id/line1" />
+
+                <TextView
+                    android:id="@+id/tvWomanCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="0"
+                    android:textColor="#F5894E"
+                    android:textSize="28sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="@+id/line1"
+                    app:layout_constraintTop_toBottomOf="@+id/line1" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clMan"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_marginTop="14dp"
+                android:layout_marginEnd="16dp"
+                android:background="@color/white"
+                android:paddingStart="17dp"
+                android:paddingTop="16dp"
+                android:paddingBottom="18dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@+id/clClass"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <View
+                    android:id="@+id/line2"
+                    android:layout_width="4dp"
+                    android:layout_height="16dp"
+                    android:background="#1D6FE9"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="7dp"
+                    android:maxLines="1"
+                    android:text="教师男生人数"
+                    android:textColor="@color/black_40"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/line2"
+                    app:layout_constraintStart_toEndOf="@+id/line2"
+                    app:layout_constraintTop_toTopOf="@+id/line2" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="0"
+                    android:id="@+id/tvManCount"
+                    android:textColor="#1D6FE9"
+                    android:textSize="28sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="@+id/line2"
+                    app:layout_constraintTop_toBottomOf="@+id/line2" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clCircle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/shape_bg_light_blue_0077ff_radius_8dp"
+                android:paddingBottom="24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/clClass">
+
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/pieChart"
+                    android:layout_width="186dp"
+                    android:layout_height="186dp"
+                    android:layout_marginTop="44dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/line3"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="21dp"
+                    android:layout_marginEnd="21dp"
+                    android:background="#0F8EFD"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/pieChart" />
+
+
+                <View
+                    android:id="@+id/pot1"
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_marginStart="21dp"
+                    android:layout_marginTop="22dp"
+                    android:background="@drawable/shape_pot_blue_radius_5dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/line3" />
+
+                <TextView
+                    android:id="@+id/tvDoctor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="博士"
+                    android:textColor="#9E9E9E"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/pot1"
+                    app:layout_constraintStart_toEndOf="@+id/pot1"
+                    app:layout_constraintTop_toTopOf="@+id/pot1" />
+
+                <TextView
+                    android:id="@+id/tvDoctorCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:text="0"
+                    android:textColor="#000000"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/pot1"
+                    app:layout_constraintStart_toEndOf="@+id/tvDoctor"
+                    app:layout_constraintTop_toTopOf="@+id/pot1" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:text="个人"
+                    android:textColor="#9E9E9E"
+                    android:textSize="10sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/pot1"
+                    app:layout_constraintStart_toEndOf="@+id/tvDoctorCount"
+                    app:layout_constraintTop_toTopOf="@+id/pot1" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.5" />
+
+                <View
+                    android:id="@+id/pot2"
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_marginStart="21dp"
+                    android:layout_marginTop="22dp"
+                    android:background="@drawable/shape_pot_green_radius_5dp"
+                    app:layout_constraintStart_toStartOf="@+id/guideline"
+                    app:layout_constraintTop_toBottomOf="@+id/line3" />
+
+                <TextView
+                    android:id="@+id/tvMaster"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="硕士"
+                    android:textColor="#9E9E9E"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/pot2"
+                    app:layout_constraintStart_toEndOf="@+id/pot2"
+                    app:layout_constraintTop_toTopOf="@+id/pot2" />
+
+                <TextView
+                    android:id="@+id/tvMasterCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:text="0"
+                    android:textColor="#000000"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/pot2"
+                    app:layout_constraintStart_toEndOf="@+id/tvMaster"
+                    app:layout_constraintTop_toTopOf="@+id/pot2" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:text="个人"
+                    android:textColor="#9E9E9E"
+                    android:textSize="10sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/pot2"
+                    app:layout_constraintStart_toEndOf="@+id/tvMasterCount"
+                    app:layout_constraintTop_toTopOf="@+id/pot2" />
+
+
+                <View
+                    android:id="@+id/pot3"
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_marginStart="21dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/shape_pot_gray_radius_5dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/pot2" />
+
+                <TextView
+                    android:id="@+id/tvUndergrad"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="本科"
+                    android:textColor="#9E9E9E"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/pot3"
+                    app:layout_constraintStart_toEndOf="@+id/pot3"
+                    app:layout_constraintTop_toTopOf="@+id/pot3" />
+
+                <TextView
+                    android:id="@+id/tvUndergradCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:text="0"
+                    android:textColor="#000000"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/pot3"
+                    app:layout_constraintStart_toEndOf="@+id/tvUndergrad"
+                    app:layout_constraintTop_toTopOf="@+id/pot3" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:text="个人"
+                    android:textColor="#9E9E9E"
+                    android:textSize="10sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/pot3"
+                    app:layout_constraintStart_toEndOf="@+id/tvUndergradCount"
+                    app:layout_constraintTop_toTopOf="@+id/pot3" />
+
+                <View
+                    android:id="@+id/pot4"
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_marginStart="21dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/shape_pot_yellow_radius_5dp"
+                    app:layout_constraintStart_toStartOf="@+id/guideline"
+                    app:layout_constraintTop_toBottomOf="@+id/pot2" />
+
+                <TextView
+                    android:id="@+id/tvJunior"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="大专"
+                    android:textColor="#9E9E9E"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/pot4"
+                    app:layout_constraintStart_toEndOf="@+id/pot4"
+                    app:layout_constraintTop_toTopOf="@+id/pot4" />
+
+                <TextView
+                    android:id="@+id/tvJuniorCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:text="0"
+                    android:textColor="#000000"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/pot4"
+                    app:layout_constraintStart_toEndOf="@+id/tvJunior"
+                    app:layout_constraintTop_toTopOf="@+id/pot4" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:text="个人"
+                    android:textColor="#9E9E9E"
+                    android:textSize="10sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/pot4"
+                    app:layout_constraintStart_toEndOf="@+id/tvJuniorCount"
+                    app:layout_constraintTop_toTopOf="@+id/pot4" />
+
+                <View
+                    android:id="@+id/pot5"
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_marginStart="21dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/shape_pot_gray_radius_5dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/pot3" />
+
+                <TextView
+                    android:id="@+id/tvOther"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="其他"
+                    android:textColor="#9E9E9E"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/pot5"
+                    app:layout_constraintStart_toEndOf="@+id/pot5"
+                    app:layout_constraintTop_toTopOf="@+id/pot5" />
+
+                <TextView
+                    android:id="@+id/tvOtherCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:text="0"
+                    android:textColor="#000000"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/pot5"
+                    app:layout_constraintStart_toEndOf="@+id/tvOther"
+                    app:layout_constraintTop_toTopOf="@+id/pot5" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:text="个人"
+                    android:textColor="#9E9E9E"
+                    android:textSize="10sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/pot5"
+                    app:layout_constraintStart_toEndOf="@+id/tvOtherCount"
+                    app:layout_constraintTop_toTopOf="@+id/pot5" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clTeacher"
+                android:layout_width="0dp"
+                android:layout_height="149dp"
+                android:layout_marginTop="16dp"
+                android:background="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/clCircle">
+
+                <TextView
+                    android:id="@+id/tvSpecialTeacher"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:text="特级教师"
+                    android:textColor="@color/black_40"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toTopOf="@+id/tvSpecialTeacherCount"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed" />
+
+                <TextView
+                    android:id="@+id/tvSpecialTeacherCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textColor="#379EFF"
+                    android:textSize="28sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/tvSpecialTeacher"
+                    app:layout_constraintTop_toBottomOf="@+id/tvSpecialTeacher" />
+
+                <View
+                    android:id="@+id/line4"
+                    android:layout_width="0.5dp"
+                    android:layout_height="119dp"
+                    android:layout_marginStart="133dp"
+                    android:background="#F4F8FC"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/clHighTeacher"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="#FFFCED"
+                    app:layout_constraintBottom_toTopOf="@+id/clTwoTeacher"
+                    app:layout_constraintEnd_toStartOf="@+id/clOneTeacher"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintHorizontal_weight="1"
+                    app:layout_constraintStart_toEndOf="@+id/line4"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed"
+                    app:layout_constraintVertical_weight="1">
+
+                    <TextView
+                        android:id="@+id/tvHighTeacher"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:text="正高级教师"
+                        android:textColor="@color/black_40"
+                        android:textSize="10sp"
+                        app:layout_constraintBottom_toTopOf="@+id/tvHighTeacherCount"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tvHighTeacherCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:text="0"
+                        android:textColor="#F7B500"
+                        android:textSize="20sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/tvHighTeacher"
+                        app:layout_constraintTop_toBottomOf="@+id/tvHighTeacher" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/clOneTeacher"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="17dp"
+                    android:background="#EBF9F2"
+                    app:layout_constraintBottom_toTopOf="@+id/clThirdTeacher"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_weight="1"
+                    app:layout_constraintStart_toEndOf="@+id/clHighTeacher"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed"
+                    app:layout_constraintVertical_weight="1">
+
+                    <TextView
+                        android:id="@+id/tvOneTeacher"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:text="一级教师"
+                        android:textColor="@color/black_40"
+                        android:textSize="10sp"
+                        app:layout_constraintBottom_toTopOf="@+id/tvOneTeacherCount"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tvOneTeacherCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:text="0"
+                        android:textColor="#47BC52"
+                        android:textSize="20sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/tvOneTeacher"
+                        app:layout_constraintTop_toBottomOf="@+id/tvOneTeacher" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/clTwoTeacher"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="9dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="#FFF9FE"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/clThirdTeacher"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintHorizontal_weight="1"
+                    app:layout_constraintStart_toEndOf="@+id/line4"
+                    app:layout_constraintTop_toBottomOf="@+id/clHighTeacher"
+                    app:layout_constraintVertical_chainStyle="packed"
+                    app:layout_constraintVertical_weight="1">
+
+                    <TextView
+                        android:id="@+id/tvTwoTeacher"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:text="二级教师"
+                        android:textColor="@color/black_40"
+                        android:textSize="10sp"
+                        app:layout_constraintBottom_toTopOf="@+id/tvTwoTeacherCount"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tvTwoTeacherCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:text="0"
+                        android:textColor="#CE6CF5"
+                        android:textSize="20sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/tvTwoTeacher"
+                        app:layout_constraintTop_toBottomOf="@+id/tvTwoTeacher" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/clThirdTeacher"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="9dp"
+                    android:layout_marginEnd="17dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="#FFF9F8"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_weight="1"
+                    app:layout_constraintStart_toEndOf="@+id/clTwoTeacher"
+                    app:layout_constraintTop_toBottomOf="@+id/clOneTeacher"
+                    app:layout_constraintVertical_weight="1">
+
+                    <TextView
+                        android:id="@+id/tvThirdTeacher"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:text="三级教师"
+                        android:textColor="@color/black_40"
+                        android:textSize="10sp"
+                        app:layout_constraintBottom_toTopOf="@+id/tvThirdTeacherCount"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tvThirdTeacherCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:text="0"
+                        android:textColor="#FD673E"
+                        android:textSize="20sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/tvThirdTeacher"
+                        app:layout_constraintTop_toBottomOf="@+id/tvThirdTeacher" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+</LinearLayout>
