@@ -166,6 +166,11 @@ class FileDeliveryAddActivity : BaseVmVBActivity<FileDeliveryAddViewModel, Activ
                     }
                 }
             }
+            if (SelectPersonUtil.getUserList().isNullOrEmpty()) {
+                mBinding.tvPersonName.text = "选择发送人"
+            } else {
+                mBinding.tvPersonName.text = SelectPersonUtil.getUserList().map { it.name }.joinToString("、")
+            }
         }
     }
 }
