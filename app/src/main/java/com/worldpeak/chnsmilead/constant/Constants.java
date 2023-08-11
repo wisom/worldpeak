@@ -77,6 +77,7 @@ public class Constants {
     public static final String KEY_REMEMBER_PWD = "KEY_REMEMBER_PWD";//是否记住密码
     public static final String KEY_LAST_PWD = "KEY_LAST_PWD";//最近一次的密码
     public static final String KEY_LAST_ACCOUNT = "KEY_LAST_ACCOUNT";//最近一次的账号
+    public static final String KEY_FIRST_SHOW_SPLASH = "KEY_FIRST_SHOW_SPLASH";//第一次打开
 
 
     public static final String TECENT_IM_APP_ID = "1400816731";//腾讯im id

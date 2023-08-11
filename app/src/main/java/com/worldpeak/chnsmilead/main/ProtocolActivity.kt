@@ -33,6 +33,7 @@ class ProtocolActivity : BaseVmVBActivity<BaseViewModel, ActivityProtocolBinding
     override fun initView() {
         super.initView()
         mBinding.tvUnagree.setPreventDoubleClickListener {
+            setResult(RESULT_CANCELED, intent)
             finish()
         }
         mBinding.tvAgree.setPreventDoubleClickListener {
@@ -51,8 +52,8 @@ class ProtocolActivity : BaseVmVBActivity<BaseViewModel, ActivityProtocolBinding
             }
             if (descStr.contains(descLight2Str) && descStr.indexOf(descLight2Str) != -1) {
                 setSpan(CSClickableSpan(Color.parseColor("#04B0EF"), View.OnClickListener {
-                    val url = Constants.SERVER_URL_ORIGIN + "app-api/app/school/page/platform/WX_USER_PRIVACY"
-                    WebDetailActivity.startActivity(this@ProtocolActivity, "隐私政策", url)
+                    val url = "http://yun3mgr.csmiledu.com/wxUserAgreement"
+                    WebDetailActivity.startActivity(this@ProtocolActivity, "用户协议", url)
                 }), descStr.indexOf(descLight2Str), descStr.indexOf(descLight2Str) + descLight2Str.length, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
             }
         }
@@ -61,8 +62,8 @@ class ProtocolActivity : BaseVmVBActivity<BaseViewModel, ActivityProtocolBinding
         mBinding.tvRead.text = SpannableString(threeSDKStr).apply {
             if (threeSDKStr.contains(threeSDKLightStr) && threeSDKStr.indexOf(threeSDKLightStr) != -1) {
                 setSpan(CSClickableSpan(Color.parseColor("#04B0EF"), View.OnClickListener {
-                    val url = Constants.SERVER_URL_ORIGIN + "app-api/app/school/page/platform/WX_USER_PRIVACY"
-                    WebDetailActivity.startActivity(this@ProtocolActivity, "隐私政策", url)
+                    val url = "http://yun3mgr.csmiledu.com/wxAppSDKExplain"
+                    WebDetailActivity.startActivity(this@ProtocolActivity, "第三方SDK说明", url)
                 }), threeSDKStr.indexOf(threeSDKLightStr), threeSDKStr.indexOf(threeSDKLightStr) + threeSDKLightStr.length, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
             }
         }

@@ -1,5 +1,6 @@
 package com.worldpeak.chnsmilead.base.activity
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import com.worldpeak.chnsmilead.R
@@ -42,8 +43,10 @@ class WebDetailActivity : BaseVmVBActivity<BaseViewModel, ActivityWebDetailBindi
         StatusBarUtil.setLightMode(this)
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     override fun initView() {
         super.initView()
+        mBinding.webview.settings.javaScriptEnabled = true;
         title?.let { mBinding.titleBar.setTitle(it) }
         url?.let { mBinding.webview.loadUrl(it) }
         mBinding.titleBar.setRightIconClick{
