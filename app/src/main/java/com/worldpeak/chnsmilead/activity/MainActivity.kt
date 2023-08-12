@@ -19,6 +19,7 @@ import com.worldpeak.chnsmilead.main.adapter.HomeViewPagerAdapter
 import com.worldpeak.chnsmilead.main.model.MainTab
 import com.worldpeak.chnsmilead.mine.MineFragment
 import com.worldpeak.chnsmilead.oa.OaFragment
+import com.worldpeak.chnsmilead.util.NotificationUtil
 import com.worldpeak.chnsmilead.util.setPreventDoubleClickListener
 
 class MainActivity : BaseVmVBActivity<MainViewModel, ActivityMainBinding>() {
@@ -30,6 +31,11 @@ class MainActivity : BaseVmVBActivity<MainViewModel, ActivityMainBinding>() {
     override fun initView() {
         initTab()
         initViewPager()
+        initPromission()
+    }
+
+    private fun initPromission() {
+        NotificationUtil.checkNotificationEnable(this)
     }
 
     private fun initTab() {
