@@ -4,11 +4,16 @@ import static com.worldpeak.chnsmilead.util.ThreadUtil.runOnUiThread;
 
 import android.content.Intent;
 import android.text.TextUtils;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.blankj.utilcode.util.ToastUtils;
+import com.google.gson.Gson;
 import com.tencent.imsdk.v2.V2TIMCallback;
+import com.tencent.qcloud.tuicore.TUILogin;
+import com.tencent.qcloud.tuicore.interfaces.TUICallback;
 import com.worldpeak.chnsmilead.MyApp;
 import com.worldpeak.chnsmilead.R;
 import com.worldpeak.chnsmilead.base.BaseViewModel;
@@ -16,6 +21,7 @@ import com.worldpeak.chnsmilead.base.manager.AccountManager;
 import com.worldpeak.chnsmilead.constant.Constants;
 import com.worldpeak.chnsmilead.login.model.WxAccessInfo;
 import com.worldpeak.chnsmilead.login.model.WxUserInfo;
+import com.worldpeak.chnsmilead.main.model.App;
 import com.worldpeak.chnsmilead.main.model.Region;
 import com.worldpeak.chnsmilead.main.model.User;
 import com.worldpeak.chnsmilead.main.model.UserInfo;
@@ -24,9 +30,11 @@ import com.worldpeak.chnsmilead.net.BaseResponse;
 import com.worldpeak.chnsmilead.net.CommonRequest;
 import com.worldpeak.chnsmilead.net.RetrofitListener;
 import com.worldpeak.chnsmilead.util.ConfigurationManager;
+import com.worldpeak.chnsmilead.util.GenerateTestUserSig;
 import com.worldpeak.chnsmilead.util.LogUtil;
 //import com.worldpeak.chnsmilead.util.tui.TUIUtils;
 import com.worldpeak.chnsmilead.util.SPUtils;
+import com.worldpeak.chnsmilead.util.Utils;
 import com.youth.banner.util.LogUtils;
 
 import java.util.List;
@@ -137,8 +145,8 @@ public class LoginViewModel extends BaseViewModel {
                     UserInfo user = (UserInfo) data.getResult(UserInfo.class);
                     AccountManager.onLogin(user);
                     MyApp.strategy.setDeviceID(user.getAccount());
-                    _getInfoSuccess.postValue(true);
-//                    startIM(user);
+//                    _getInfoSuccess.postValue(true);
+                    startIM(user);
                 } else {
                     if (!TextUtils.isEmpty(data.getMsg())) {
                         showToast(data.getMsg());
@@ -153,10 +161,29 @@ public class LoginViewModel extends BaseViewModel {
         });
     }
 
-//    private void startIM(User user) {
-////        String userSig = GenerateTestUserSig.genTestUserSig(user.id);
-//        LogUtils.i("userSig: " + user.imUserSign);
-//        TUIUtils.login(user.id, user.imUserSign, new V2TIMCallback() {
+    private void startIM(UserInfo user) {
+        Log.e("tag", "user = " + new Gson().toJson(user));
+        String userSig = GenerateTestUserSig.genTestUserSig(user.getId());
+        Log.e("Tag", "userSig: " + user.getImUserSign() + "| " + userSig + " | userId = " + user.getId());
+        TUILogin.login(MyApp.getInstance().getApplicationContext(), Utils.timAppId, user.getId(), user.getImUserSign(), new TUICallback() {
+            @Override
+            public void onSuccess() {
+                ConfigurationManager.instance().setBoolean(Constants.PREF_KEY_IM_ERROR_STATUS, false);
+                _getInfoSuccess.postValue(true);
+            }
+
+            @Override
+            public void onError(int errorCode, String errorMessage) {
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        ConfigurationManager.instance().setBoolean(Constants.PREF_KEY_IM_ERROR_STATUS, true);
+                        ToastUtils.showShort(errorMessage);
+//                        startMainUI();
+//                        finish();
+                    }
+                });
+                Log.e("Tag", "imLogin errorCode = " + errorCode + ", errorInfo = " + errorMessage);
+            }
 //            @Override
 //            public void onError(final int code, final String desc) {
 //                runOnUiThread(new Runnable() {
@@ -176,14 +203,13 @@ public class LoginViewModel extends BaseViewModel {
 ////                startMainUI();
 ////                finish();
 //            }
-//        });
-//    }
+        });
+    }
 
     /**
      * 获取access_token
      *
      * @param code 微信授权后返回的code，用于获取access_token
-     * @param type type 无效，0-行政版 1-校园版
      */
     public void getWxAccessToken(String code) {
         CommonRequest.getInstance().getAccessToken(code, 0, new RetrofitListener<BaseResponse>() {
@@ -213,7 +239,6 @@ public class LoginViewModel extends BaseViewModel {
      * 获取微信用户信息
      *
      * @param accessToken
-     * @param type 无效，0-行政版 1-校园版
      */
     private void getWxUserInfo(String accessToken, String openId, int userIdentity) {
         CommonRequest.getInstance().getWxUserInfo(accessToken, openId, 0, new RetrofitListener<BaseResponse>() {
@@ -224,7 +249,7 @@ public class LoginViewModel extends BaseViewModel {
                     if (wxUserInfo != null && !TextUtils.isEmpty(wxUserInfo.getAccount())) {
                         wxLoginReq(accessToken, openId, wxUserInfo.getAccount(), "", userIdentity);
                     } else {
-                        unBindInfo.postValue(new Triple(accessToken,wxUserInfo.getOpenid(),userIdentity));
+                        unBindInfo.postValue(new Triple(accessToken, wxUserInfo.getOpenid(), userIdentity));
                     }
                 } else {
                     if (!TextUtils.isEmpty(data.getMsg())) {
@@ -323,7 +348,6 @@ public class LoginViewModel extends BaseViewModel {
      * 刷新access_token
      *
      * @param refreshToken
-     * @param type         type 无效，0-行政版 1-校园版
      */
     private void refreshWxAccessToken(String refreshToken, int userIdentity) {
         CommonRequest.getInstance().refreshToken(refreshToken, 0, new RetrofitListener<BaseResponse>() {
@@ -354,7 +378,6 @@ public class LoginViewModel extends BaseViewModel {
      *
      * @param accessToken
      * @param openId
-     * @param type        type 无效，0-行政版 1-校园版
      */
     public void verifyToken(String accessToken, String openId, int userIdentity) {
         CommonRequest.getInstance().verifyAccessToken(accessToken, openId, 0, new RetrofitListener<BaseResponse>() {

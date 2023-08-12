@@ -11,7 +11,12 @@ import android.text.method.PasswordTransformationMethod
 import android.view.View
 import androidx.lifecycle.Observer
 import com.blankj.utilcode.util.ToastUtils
-import com.tencent.bugly.crashreport.CrashReport
+import com.tencent.imsdk.v2.V2TIMLogListener
+import com.tencent.imsdk.v2.V2TIMSDKConfig
+import com.tencent.imsdk.v2.V2TIMSDKListener
+import com.tencent.imsdk.v2.V2TIMUserFullInfo
+import com.tencent.imsdk.v2.V2TIMUserStatus
+import com.tencent.qcloud.tuicore.TUILogin
 import com.worldpeak.chnsmilead.MyApp
 import com.worldpeak.chnsmilead.R
 import com.worldpeak.chnsmilead.activity.MainActivity
@@ -23,9 +28,16 @@ import com.worldpeak.chnsmilead.event.GetWxCodeEvent
 import com.worldpeak.chnsmilead.login.WxBindActivity
 import com.worldpeak.chnsmilead.main.viewmodel.LoginViewModel
 import com.worldpeak.chnsmilead.mine.activity.FindPwdActivity
-import com.worldpeak.chnsmilead.util.*
+import com.worldpeak.chnsmilead.util.CSClickableSpan
+import com.worldpeak.chnsmilead.util.ConfigurationManager
+import com.worldpeak.chnsmilead.util.SPUtils
+import com.worldpeak.chnsmilead.util.StatusBarUtil
+import com.worldpeak.chnsmilead.util.Utils
+import com.worldpeak.chnsmilead.util.WXUtil
+import com.worldpeak.chnsmilead.util.setPreventDoubleClickListener
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+
 
 @UseEventBus
 class LoginActivity : BaseVmVBActivity<LoginViewModel, ActivityLoginBinding>() {
@@ -45,6 +57,43 @@ class LoginActivity : BaseVmVBActivity<LoginViewModel, ActivityLoginBinding>() {
     private var isHidePwd = true
     override fun initView() {
         super.initView()
+        val config = V2TIMSDKConfig()
+        config.logLevel = V2TIMSDKConfig.V2TIM_LOG_INFO
+        config.logListener = object : V2TIMLogListener() {
+            override fun onLog(logLevel: Int, logContent: String) {
+                // logContent 为 SDK 日志内容
+            }
+        }
+
+        TUILogin.init(this, Utils.timAppId, config, object : V2TIMSDKListener() {
+            override fun onConnecting() {
+                super.onConnecting()
+            }
+
+            override fun onConnectSuccess() {
+                super.onConnectSuccess()
+            }
+
+            override fun onConnectFailed(code: Int, error: String?) {
+                super.onConnectFailed(code, error)
+            }
+
+            override fun onKickedOffline() {
+                super.onKickedOffline()
+            }
+
+            override fun onUserSigExpired() {
+                super.onUserSigExpired()
+            }
+
+            override fun onSelfInfoUpdated(info: V2TIMUserFullInfo?) {
+                super.onSelfInfoUpdated(info)
+            }
+
+            override fun onUserStatusChanged(userStatusList: MutableList<V2TIMUserStatus>?) {
+                super.onUserStatusChanged(userStatusList)
+            }
+        })
         val lastAccount = spUtils.getString(Constants.KEY_LAST_ACCOUNT, "")
         val lastPwd = spUtils.getString(Constants.KEY_LAST_PWD, "")
         val rememberPwd = spUtils.getBoolean(Constants.KEY_REMEMBER_PWD, false)
@@ -99,9 +148,17 @@ class LoginActivity : BaseVmVBActivity<LoginViewModel, ActivityLoginBinding>() {
         mBinding.tvAgree.movementMethod = LinkMovementMethod.getInstance()
         mBinding.tvAgree.text = SpannableString(descStr).apply {
             if (descStr.contains(descLightStr) && descStr.indexOf(descLightStr) != -1) {
-                setSpan(CSClickableSpan(Color.parseColor("#04B0EF"), View.OnClickListener {
-                    startActivityForResult(Intent(this@LoginActivity, ProtocolActivity::class.java), REQUEST_CODE)
-                }), descStr.indexOf(descLightStr), descStr.indexOf(descLightStr) + descLightStr.length, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
+                setSpan(
+                    CSClickableSpan(Color.parseColor("#04B0EF"), View.OnClickListener {
+                        startActivityForResult(
+                            Intent(this@LoginActivity, ProtocolActivity::class.java),
+                            REQUEST_CODE
+                        )
+                    }),
+                    descStr.indexOf(descLightStr),
+                    descStr.indexOf(descLightStr) + descLightStr.length,
+                    Spannable.SPAN_INCLUSIVE_EXCLUSIVE
+                )
             }
         }
         mBinding.ivWechatLogin.setPreventDoubleClickListener {
@@ -110,7 +167,8 @@ class LoginActivity : BaseVmVBActivity<LoginViewModel, ActivityLoginBinding>() {
                 ToastUtils.showShort("请同意用户隐私政策")
                 return@setPreventDoubleClickListener
             }
-            ConfigurationManager.instance().setString(Constants.PREF_KEY_URL, Constants.SERVER_URL_ORIGIN)
+            ConfigurationManager.instance()
+                .setString(Constants.PREF_KEY_URL, Constants.SERVER_URL_ORIGIN)
             val accessToken = spUtils.getString(Constants.PREF_KEY_WX_ACCESSTOKEN)
             if (TextUtils.isEmpty(accessToken)) {
                 WXUtil.sendAuth()

@@ -52,13 +52,16 @@ class MainActivity : BaseVmVBActivity<MainViewModel, ActivityMainBinding>() {
     }
 
     private fun initViewPager() {
-        var mFragmentList = mutableListOf<Fragment>()
-        mFragmentList.add(HomeFragment())
-        mFragmentList.add(BbsFragment())
-        mFragmentList.add(OaFragment())
-        mFragmentList.add(HomeContactFragment())
-        mFragmentList.add(MineFragment())
-        mBinding.viewpager.adapter = HomeViewPagerAdapter(this, mFragmentList)
+        mBinding.viewpager.adapter = HomeViewPagerAdapter(
+            this,
+            mutableListOf<Fragment>(
+                HomeFragment(),
+                BbsFragment(),
+                OaFragment(),
+                HomeContactFragment(),
+                MineFragment()
+            )
+        )
         mBinding.viewpager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
@@ -84,6 +87,7 @@ class MainActivity : BaseVmVBActivity<MainViewModel, ActivityMainBinding>() {
                 mBinding.ivTabMine.isActivated = false
                 mBinding.tvTabMine.setTextColor(normalColor)
             }
+
             MainTab.COMMUNITY -> {
                 mBinding.ivTabHome.isActivated = false
                 mBinding.tvTabHome.setTextColor(normalColor)
@@ -96,6 +100,7 @@ class MainActivity : BaseVmVBActivity<MainViewModel, ActivityMainBinding>() {
                 mBinding.ivTabMine.isActivated = false
                 mBinding.tvTabMine.setTextColor(normalColor)
             }
+
             MainTab.OA -> {
                 mBinding.ivTabHome.isActivated = false
                 mBinding.tvTabHome.setTextColor(normalColor)
@@ -108,6 +113,7 @@ class MainActivity : BaseVmVBActivity<MainViewModel, ActivityMainBinding>() {
                 mBinding.ivTabMine.isActivated = false
                 mBinding.tvTabMine.setTextColor(normalColor)
             }
+
             MainTab.CONTACT -> {
                 mBinding.ivTabHome.isActivated = false
                 mBinding.tvTabHome.setTextColor(normalColor)
@@ -120,6 +126,7 @@ class MainActivity : BaseVmVBActivity<MainViewModel, ActivityMainBinding>() {
                 mBinding.ivTabMine.isActivated = false
                 mBinding.tvTabMine.setTextColor(normalColor)
             }
+
             MainTab.MINE -> {
                 mBinding.ivTabHome.isActivated = false
                 mBinding.tvTabHome.setTextColor(normalColor)

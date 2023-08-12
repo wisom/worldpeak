@@ -1,11 +1,18 @@
-package com.worldpeak.chnsmilead.main.model;
+package com.worldpeak.chnsmilead.main.model
 
-import java.io.Serializable;
+import java.io.Serializable
 
-public class UserAgent implements Serializable {
-
-    public String appType; // android ios
-    public String appVersion; // 版本号
-    public String model; // xiaomi_530
-    public int appCode; // 版本code
+class UserAgent : Serializable {
+    @JvmField
+    var appType // android ios
+            : String? = null
+    @JvmField
+    var appVersion // 版本号
+            : String? = null
+    @JvmField
+    var model // xiaomi_530
+            : String? = null
+    @JvmField
+    var appCode // 版本code
+            = 0
 }

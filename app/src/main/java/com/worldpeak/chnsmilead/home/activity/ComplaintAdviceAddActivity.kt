@@ -80,9 +80,9 @@ class ComplaintAdviceAddActivity : BaseVmVBActivity<ComplaintAdviceViewModel, Ac
         super.initView()
         PermissionUtil.check(this)
         mBinding.tvServiceUnit.setPreventDoubleClickListener {
-            val list = mUnitList.map { it.schoolName }?.filterNotNull()
+            val list = mUnitList.map { it.schoolName }.filterNotNull()
             val curIndex = mUnitList.indexOfFirst { it.schoolName == mBinding.tvServiceUnit.text.toString() }
-            if (list.isNotEmpty()) {
+            if (list?.isNotEmpty()!!) {
                 unitDialog = ListSelectConfirmDialog(this@ComplaintAdviceAddActivity, list, if (curIndex == -1) 0 else curIndex, false) { index ->
                     currUnit = mUnitList.getOrNull(index)
                     mBinding.tvServiceUnit.text = currUnit?.schoolName ?: ""
@@ -94,7 +94,7 @@ class ComplaintAdviceAddActivity : BaseVmVBActivity<ComplaintAdviceViewModel, Ac
         mBusinessTypeList.add(ComplaintAdviceBusinessType("建议", 1))
         mBusinessTypeList.add(ComplaintAdviceBusinessType("投诉", 2))
         mBinding.tvBusinessType.setPreventDoubleClickListener {
-            val list = mBusinessTypeList.map { it.content }?.filterNotNull()
+            val list = mBusinessTypeList.map { it.content }.filterNotNull()
             val curIndex = mBusinessTypeList.indexOfFirst { it.content == mBinding.tvBusinessType.text.toString() }
             if (list.isNotEmpty()) {
                 businessTypeDialog = ListSelectConfirmDialog(this@ComplaintAdviceAddActivity, list, if (curIndex == -1) 0 else curIndex, false) { index ->
@@ -105,7 +105,7 @@ class ComplaintAdviceAddActivity : BaseVmVBActivity<ComplaintAdviceViewModel, Ac
             }
         }
         mBinding.tvContentType.setPreventDoubleClickListener {
-            val list = mContentTypeList.map { it.complaintProposeName }?.filterNotNull()
+            val list = mContentTypeList.map { it.complaintProposeName }.filterNotNull()
             val curIndex = mContentTypeList.indexOfFirst { it.complaintProposeName == mBinding.tvContentType.text.toString() }
             if (list.isNotEmpty()) {
                 contentTypeDialog = ListSelectConfirmDialog(this@ComplaintAdviceAddActivity, list, if (curIndex == -1) 0 else curIndex, false) { index ->
