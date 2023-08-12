@@ -3,6 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.worldpeak.chnsmilead">
 
+    <queries>
+        <intent>
+            <action android:name="com.getui.sdk.action" />
+        </intent>
+    </queries>
+
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -14,6 +20,17 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.WRITE_CONTACTS" />
+
+<!--    getui start-->
+    <!-- iBeancon 功能所需权限 -->
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+    <!-- 个推电子围栏功能所需权限 -->
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <!--    getui end-->
 
 <!--    <permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />-->
 
@@ -30,6 +47,10 @@
         android:theme="@style/WorldpeakTheme"
         android:usesCleartextTraffic="true"
         tools:replace="android:allowBackup,android:icon, android:theme">
+
+        <meta-data
+            android:name="PUSH_APPID"
+            android:value="${GETUI_APPID}" />
         <activity
             android:name=".mine.activity.AboutActivity"
             android:exported="false"
@@ -221,6 +242,16 @@
         <activity
             android:name=".login.WxBindActivity"
             android:exported="false" />
+
+        <service
+            android:name=".getui.GetuiPushService"
+            android:exported="false"
+            android:label="PushService"
+            android:process=":pushservice"/>
+
+        <service
+            android:name=".getui.GetuiIntentService" />
+
 
 
     </application>

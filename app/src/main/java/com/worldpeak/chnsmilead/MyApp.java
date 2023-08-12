@@ -6,11 +6,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Build;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
 import com.drake.tooltip.ToastConfig;
 import com.drake.tooltip.interfaces.ToastGravityFactory;
+import com.igexin.sdk.IUserLoggerInterface;
+import com.igexin.sdk.PushManager;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshFooterCreator;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreator;
@@ -36,6 +39,8 @@ public class MyApp extends Application {
         super.onCreate();
         mInstance = this;
 
+
+
         SmartRefreshLayout.setDefaultRefreshFooterCreator(new DefaultRefreshFooterCreator() {
             @NonNull
             @Override
@@ -58,6 +63,8 @@ public class MyApp extends Application {
         regToWx();
 
         initBugly();
+        initGetui();
+
     }
 
     public static CrashReport.UserStrategy strategy;
@@ -65,6 +72,10 @@ public class MyApp extends Application {
     private void initBugly() {
         strategy = new CrashReport.UserStrategy(this);
         CrashReport.initCrashReport(getApplicationContext(), Constants.BUGLY_APPID, BuildConfig.DEBUG, strategy);
+    }
+
+    private void initGetui() {
+        PushManager.getInstance().initialize(getContext());
     }
 
     private static IWXAPI api = null;

@@ -23,7 +23,7 @@ android {
                 GETUI_APPID    : rootProject.ext.GETUI_APP_ID,
                 // 华为 相关应用参数
                 HUAWEI_APP_ID  : rootProject.ext.HUAWEI_APP_ID,
-                // 荣耀 相关应用参数
+                // 荣耀 相关应用参数manifestPlaceholders
                 HONOR_APP_ID  : rootProject.ext.HONOR_APP_ID,
                 // 小米相关应用参数
                 XIAOMI_APP_ID  : rootProject.ext.XIAOMI_APP_ID,
@@ -109,6 +109,8 @@ dependencies {
     api 'com.tencent.imsdk:imsdk-plus:6.0.1975'
 
 //    implementation 'com.getui:gtsdk:3.2.14.0'  //个推SDK
+    implementation 'com.getui:gtsdk:3.2.19.0'  //个推SDK
+//    implementation 'com.getui:gtc:3.2.6.0'  //个推核心组件
 
     // util
     implementation 'com.blankj:utilcode:1.30.6'
