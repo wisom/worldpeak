@@ -18,7 +18,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class BaseRequest {
     private static ICommonApi commonApi;
-    private static OkHttpClient okHttpClient = new OkHttpClient();
+    private static OkHttpClient okHttpClient =   new OkHttpClient();
     private static Converter.Factory gsonConverterFactory = GsonConverterFactory.create();
     private static CallAdapter.Factory rxJavaCallAdapterFactory = RxJavaCallAdapterFactory.create();
     private static Retrofit retrofit;

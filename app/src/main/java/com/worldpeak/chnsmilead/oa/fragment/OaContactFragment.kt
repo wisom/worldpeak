@@ -1,14 +1,18 @@
 package com.worldpeak.chnsmilead.oa.fragment
 
-import androidx.lifecycle.Observer
+import android.content.Intent
+import android.view.View
+import com.blankj.utilcode.util.ToastUtils
 import com.worldpeak.chnsmilead.R
 import com.worldpeak.chnsmilead.base.BaseVmVBFragment
 import com.worldpeak.chnsmilead.databinding.FragmentOaContactBinding
+import com.worldpeak.chnsmilead.oa.activity.GroupListActivity
 import com.worldpeak.chnsmilead.oa.activity.contact.OaContactOrgActivity
 import com.worldpeak.chnsmilead.oa.viewmodel.OaContactViewModel
 import com.worldpeak.chnsmilead.util.setPreventDoubleClickListener
 
-class OaContactFragment : BaseVmVBFragment<OaContactViewModel, FragmentOaContactBinding>() {
+class OaContactFragment : BaseVmVBFragment<OaContactViewModel, FragmentOaContactBinding>(),
+    View.OnClickListener {
 
     companion object {
         const val EXTRA_CAN_EDIT = "EXTRA_CAN_EDIT"
@@ -24,13 +28,21 @@ class OaContactFragment : BaseVmVBFragment<OaContactViewModel, FragmentOaContact
         mBinding.llOrg.setPreventDoubleClickListener {
             activity?.let { it1 -> OaContactOrgActivity.startActivity(it1, canEdit) }
         }
+
+        mBinding.llGroup.setOnClickListener(this)
     }
 
     override fun loadData() {
-        mViewModel.getContactList()
-        mViewModel.contactList.observe(this, Observer { contactList ->
+        mViewModel.contactList.observe(this) {
+            if (it != null && it.isNotEmpty()) {
 
-        })
+            }
+        }
     }
 
+    override fun onClick(p0: View?) {
+        when (p0?.id) {
+            R.id.llGroup -> startActivity(Intent(activity, GroupListActivity::class.java))
+        }
+    }
 }

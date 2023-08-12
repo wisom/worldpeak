@@ -8,5 +8,5 @@ package com.worldpeak.chnsmilead.util
  */
 
 object Utils {
-    const val timAppId:Int = 1400816731
+    const val timAppId: Int = 1400627286  //1400816731
 }

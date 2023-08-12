@@ -11,12 +11,6 @@ import android.text.method.PasswordTransformationMethod
 import android.view.View
 import androidx.lifecycle.Observer
 import com.blankj.utilcode.util.ToastUtils
-import com.tencent.imsdk.v2.V2TIMLogListener
-import com.tencent.imsdk.v2.V2TIMSDKConfig
-import com.tencent.imsdk.v2.V2TIMSDKListener
-import com.tencent.imsdk.v2.V2TIMUserFullInfo
-import com.tencent.imsdk.v2.V2TIMUserStatus
-import com.tencent.qcloud.tuicore.TUILogin
 import com.worldpeak.chnsmilead.MyApp
 import com.worldpeak.chnsmilead.R
 import com.worldpeak.chnsmilead.activity.MainActivity
@@ -32,7 +26,6 @@ import com.worldpeak.chnsmilead.util.CSClickableSpan
 import com.worldpeak.chnsmilead.util.ConfigurationManager
 import com.worldpeak.chnsmilead.util.SPUtils
 import com.worldpeak.chnsmilead.util.StatusBarUtil
-import com.worldpeak.chnsmilead.util.Utils
 import com.worldpeak.chnsmilead.util.WXUtil
 import com.worldpeak.chnsmilead.util.setPreventDoubleClickListener
 import org.greenrobot.eventbus.Subscribe
@@ -57,43 +50,6 @@ class LoginActivity : BaseVmVBActivity<LoginViewModel, ActivityLoginBinding>() {
     private var isHidePwd = true
     override fun initView() {
         super.initView()
-        val config = V2TIMSDKConfig()
-        config.logLevel = V2TIMSDKConfig.V2TIM_LOG_INFO
-        config.logListener = object : V2TIMLogListener() {
-            override fun onLog(logLevel: Int, logContent: String) {
-                // logContent 为 SDK 日志内容
-            }
-        }
-
-        TUILogin.init(this, Utils.timAppId, config, object : V2TIMSDKListener() {
-            override fun onConnecting() {
-                super.onConnecting()
-            }
-
-            override fun onConnectSuccess() {
-                super.onConnectSuccess()
-            }
-
-            override fun onConnectFailed(code: Int, error: String?) {
-                super.onConnectFailed(code, error)
-            }
-
-            override fun onKickedOffline() {
-                super.onKickedOffline()
-            }
-
-            override fun onUserSigExpired() {
-                super.onUserSigExpired()
-            }
-
-            override fun onSelfInfoUpdated(info: V2TIMUserFullInfo?) {
-                super.onSelfInfoUpdated(info)
-            }
-
-            override fun onUserStatusChanged(userStatusList: MutableList<V2TIMUserStatus>?) {
-                super.onUserStatusChanged(userStatusList)
-            }
-        })
         val lastAccount = spUtils.getString(Constants.KEY_LAST_ACCOUNT, "")
         val lastPwd = spUtils.getString(Constants.KEY_LAST_PWD, "")
         val rememberPwd = spUtils.getBoolean(Constants.KEY_REMEMBER_PWD, false)

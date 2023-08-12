@@ -29,6 +29,13 @@ class OaMsgFragment : BaseVmVBFragment<OaMsgViewModel, FragmentOaMsgBinding>() {
 
     override fun initView() {
         super.initView()
+
+        mViewModel.contactList.observe(this) {
+            if (it != null) {
+                mAdapter.items = it
+            }
+        }
+
         mBinding.rvContact.layoutManager = LinearLayoutManager(activity)
         mBinding.rvContact.adapter = mAdapter
     }

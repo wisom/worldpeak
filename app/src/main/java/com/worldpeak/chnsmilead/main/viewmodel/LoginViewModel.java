@@ -2,18 +2,18 @@ package com.worldpeak.chnsmilead.main.viewmodel;
 
 import static com.worldpeak.chnsmilead.util.ThreadUtil.runOnUiThread;
 
-import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
 
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.blankj.utilcode.util.ToastUtils;
-import com.google.gson.Gson;
 import com.tencent.imsdk.v2.V2TIMCallback;
-import com.tencent.qcloud.tuicore.TUILogin;
-import com.tencent.qcloud.tuicore.interfaces.TUICallback;
+import com.tencent.imsdk.v2.V2TIMManager;
+import com.tencent.imsdk.v2.V2TIMSDKConfig;
+import com.tencent.imsdk.v2.V2TIMSDKListener;
+import com.tencent.imsdk.v2.V2TIMUserFullInfo;
+import com.tencent.imsdk.v2.V2TIMUserStatus;
 import com.worldpeak.chnsmilead.MyApp;
 import com.worldpeak.chnsmilead.R;
 import com.worldpeak.chnsmilead.base.BaseViewModel;
@@ -21,21 +21,15 @@ import com.worldpeak.chnsmilead.base.manager.AccountManager;
 import com.worldpeak.chnsmilead.constant.Constants;
 import com.worldpeak.chnsmilead.login.model.WxAccessInfo;
 import com.worldpeak.chnsmilead.login.model.WxUserInfo;
-import com.worldpeak.chnsmilead.main.model.App;
 import com.worldpeak.chnsmilead.main.model.Region;
-import com.worldpeak.chnsmilead.main.model.User;
 import com.worldpeak.chnsmilead.main.model.UserInfo;
-import com.worldpeak.chnsmilead.net.BaseRequest;
 import com.worldpeak.chnsmilead.net.BaseResponse;
 import com.worldpeak.chnsmilead.net.CommonRequest;
 import com.worldpeak.chnsmilead.net.RetrofitListener;
 import com.worldpeak.chnsmilead.util.ConfigurationManager;
-import com.worldpeak.chnsmilead.util.GenerateTestUserSig;
 import com.worldpeak.chnsmilead.util.LogUtil;
-//import com.worldpeak.chnsmilead.util.tui.TUIUtils;
 import com.worldpeak.chnsmilead.util.SPUtils;
 import com.worldpeak.chnsmilead.util.Utils;
-import com.youth.banner.util.LogUtils;
 
 import java.util.List;
 
@@ -47,6 +41,58 @@ public class LoginViewModel extends BaseViewModel {
     public MutableLiveData<Boolean> _getInfoSuccess = new MutableLiveData<>();
     public MutableLiveData<Triple<String, String, Integer>> unBindInfo = new MutableLiveData<>();
     public SPUtils spUtils = new SPUtils(MyApp.getContext(), "worldpeak");
+
+    public LoginViewModel() {
+        init();
+    }
+
+    private void init() {
+        V2TIMSDKConfig config = new V2TIMSDKConfig();
+        config.setLogLevel(V2TIMSDKConfig.V2TIM_LOG_INFO);
+        V2TIMManager.getInstance().addIMSDKListener(new V2TIMSDKListener() {
+            @Override
+            public void onConnecting() {
+                super.onConnecting();
+                Log.e("tag", "onConnecting\n正在连接到腾讯云服务器\n");
+            }
+
+            @Override
+            public void onConnectSuccess() {
+                super.onConnectSuccess();
+                Log.e("tag", "已经成功连接到腾讯云服务器");
+            }
+
+            @Override
+            public void onConnectFailed(int code, String error) {
+                super.onConnectFailed(code, error);
+                Log.e("tag", "连接腾讯云服务器失败");
+            }
+
+            @Override
+            public void onKickedOffline() {
+                super.onKickedOffline();
+                Log.e("tag", "当前用户被踢下线");
+            }
+
+            @Override
+            public void onUserSigExpired() {
+                super.onUserSigExpired();
+                Log.e("tag", "登录票据已经过期");
+            }
+
+            @Override
+            public void onSelfInfoUpdated(V2TIMUserFullInfo info) {
+                super.onSelfInfoUpdated(info);
+                Log.e("tag", "当前用户的资料发生了更新");
+            }
+
+            @Override
+            public void onUserStatusChanged(List<V2TIMUserStatus> userStatusList) {
+                super.onUserStatusChanged(userStatusList);
+            }
+        });
+        V2TIMManager.getInstance().initSDK(MyApp.getInstance().getApplicationContext(), Utils.timAppId, config);
+    }
 
     /**
      * @param userName
@@ -162,10 +208,10 @@ public class LoginViewModel extends BaseViewModel {
     }
 
     private void startIM(UserInfo user) {
-        Log.e("tag", "user = " + new Gson().toJson(user));
-        String userSig = GenerateTestUserSig.genTestUserSig(user.getId());
-        Log.e("Tag", "userSig: " + user.getImUserSign() + "| " + userSig + " | userId = " + user.getId());
-        TUILogin.login(MyApp.getInstance().getApplicationContext(), Utils.timAppId, user.getId(), user.getImUserSign(), new TUICallback() {
+//        String userSig = GenerateTestUserSig.genTestUserSig(user.getId());
+//        Log.e("Tag", "userSig: " + user.getImUserSign() + "| " + userSig + " | userId = " + user.getId());
+
+        V2TIMManager.getInstance().login(user.getId(), user.getImUserSign(), new V2TIMCallback() {
             @Override
             public void onSuccess() {
                 ConfigurationManager.instance().setBoolean(Constants.PREF_KEY_IM_ERROR_STATUS, false);
@@ -173,36 +219,10 @@ public class LoginViewModel extends BaseViewModel {
             }
 
             @Override
-            public void onError(int errorCode, String errorMessage) {
-                runOnUiThread(new Runnable() {
-                    public void run() {
-                        ConfigurationManager.instance().setBoolean(Constants.PREF_KEY_IM_ERROR_STATUS, true);
-                        ToastUtils.showShort(errorMessage);
-//                        startMainUI();
-//                        finish();
-                    }
-                });
-                Log.e("Tag", "imLogin errorCode = " + errorCode + ", errorInfo = " + errorMessage);
+            public void onError(int i, String s) {
+                ConfigurationManager.instance().setBoolean(Constants.PREF_KEY_IM_ERROR_STATUS, true);
+                ToastUtils.showShort(s);
             }
-//            @Override
-//            public void onError(final int code, final String desc) {
-//                runOnUiThread(new Runnable() {
-//                    public void run() {
-//                        ConfigurationManager.instance().setBoolean(Constants.PREF_KEY_IM_ERROR_STATUS, true);
-////                        ToastUtils.showShort(R.string.failed_login_tip + ":" + desc);
-////                        startMainUI();
-////                        finish();
-//                    }
-//                });
-//                LogUtils.e("imLogin errorCode = " + code + ", errorInfo = " + desc);
-//            }
-//
-//            @Override
-//            public void onSuccess() {
-//                ConfigurationManager.instance().setBoolean(Constants.PREF_KEY_IM_ERROR_STATUS, false);
-////                startMainUI();
-////                finish();
-//            }
         });
     }
 

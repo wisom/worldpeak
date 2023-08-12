@@ -23,10 +23,10 @@ class OaContactOrgActivity : BaseVmVBActivity<OaContactViewModel, ActivityOaCont
     companion object {
         const val EXTRA_CANEDIT = "EXTRA_CANEDIT"
 
-        fun startActivity(context: Activity,canEdit:Boolean) {
+        fun startActivity(context: Activity, canEdit: Boolean) {
             val intent = Intent(context, OaContactOrgActivity::class.java)
-            intent.putExtra(EXTRA_CANEDIT,canEdit)
-            context.startActivityForResult(intent,OaContactOrgUnitUserActivity.EXTRA_REQ_CODE)
+            intent.putExtra(EXTRA_CANEDIT, canEdit)
+            context.startActivityForResult(intent, OaContactOrgUnitUserActivity.EXTRA_REQ_CODE)
         }
     }
 
@@ -60,11 +60,11 @@ class OaContactOrgActivity : BaseVmVBActivity<OaContactViewModel, ActivityOaCont
     @SuppressLint("SetTextI18n")
     override fun loadData() {
         mViewModel.getContactList()
-        mViewModel.contactList.observe(this, Observer { contactList ->
+        mViewModel.contactList.observe(this) {
             mContactList.clear()
-            mContactList.addAll(contactList)
+            mContactList.addAll(it)
             mContactAdapter.notifyDataSetChanged()
-        })
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
