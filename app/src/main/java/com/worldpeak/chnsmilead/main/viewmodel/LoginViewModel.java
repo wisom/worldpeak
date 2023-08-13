@@ -1,7 +1,5 @@
 package com.worldpeak.chnsmilead.main.viewmodel;
 
-import static com.worldpeak.chnsmilead.util.ThreadUtil.runOnUiThread;
-
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -14,8 +12,6 @@ import com.tencent.imsdk.v2.V2TIMSDKConfig;
 import com.tencent.imsdk.v2.V2TIMSDKListener;
 import com.tencent.imsdk.v2.V2TIMUserFullInfo;
 import com.tencent.imsdk.v2.V2TIMUserStatus;
-import com.tencent.qcloud.tuicore.TUILogin;
-import com.tencent.qcloud.tuicore.interfaces.TUICallback;
 import com.worldpeak.chnsmilead.MyApp;
 import com.worldpeak.chnsmilead.R;
 import com.worldpeak.chnsmilead.base.BaseViewModel;
@@ -43,58 +39,6 @@ public class LoginViewModel extends BaseViewModel {
     public MutableLiveData<Boolean> _getInfoSuccess = new MutableLiveData<>();
     public MutableLiveData<Triple<String, String, Integer>> unBindInfo = new MutableLiveData<>();
     public SPUtils spUtils = new SPUtils(MyApp.getContext(), "worldpeak");
-
-    public LoginViewModel() {
-        init();
-    }
-
-    private void init() {
-        V2TIMSDKConfig config = new V2TIMSDKConfig();
-        config.setLogLevel(V2TIMSDKConfig.V2TIM_LOG_INFO);
-        V2TIMManager.getInstance().addIMSDKListener(new V2TIMSDKListener() {
-            @Override
-            public void onConnecting() {
-                super.onConnecting();
-                Log.e("tag", "onConnecting\n正在连接到腾讯云服务器\n");
-            }
-
-            @Override
-            public void onConnectSuccess() {
-                super.onConnectSuccess();
-                Log.e("tag", "已经成功连接到腾讯云服务器");
-            }
-
-            @Override
-            public void onConnectFailed(int code, String error) {
-                super.onConnectFailed(code, error);
-                Log.e("tag", "连接腾讯云服务器失败");
-            }
-
-            @Override
-            public void onKickedOffline() {
-                super.onKickedOffline();
-                Log.e("tag", "当前用户被踢下线");
-            }
-
-            @Override
-            public void onUserSigExpired() {
-                super.onUserSigExpired();
-                Log.e("tag", "登录票据已经过期");
-            }
-
-            @Override
-            public void onSelfInfoUpdated(V2TIMUserFullInfo info) {
-                super.onSelfInfoUpdated(info);
-                Log.e("tag", "当前用户的资料发生了更新");
-            }
-
-            @Override
-            public void onUserStatusChanged(List<V2TIMUserStatus> userStatusList) {
-                super.onUserStatusChanged(userStatusList);
-            }
-        });
-        V2TIMManager.getInstance().initSDK(MyApp.getInstance().getApplicationContext(), Utils.timAppId, config);
-    }
 
     /**
      * @param userName
@@ -217,6 +161,7 @@ public class LoginViewModel extends BaseViewModel {
             public void onSuccess() {
                 ConfigurationManager.instance().setBoolean(Constants.PREF_KEY_IM_ERROR_STATUS, false);
                 _getInfoSuccess.postValue(true);
+                Log.e("tag", "登录成功");
             }
 
             @Override

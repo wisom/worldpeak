@@ -8,10 +8,15 @@ import android.text.TextUtils
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.LinkMovementMethod
 import android.text.method.PasswordTransformationMethod
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import com.blankj.utilcode.util.ToastUtils
-import com.bumptech.glide.util.Util
+import com.tencent.imsdk.v2.V2TIMManager
+import com.tencent.imsdk.v2.V2TIMSDKConfig
+import com.tencent.imsdk.v2.V2TIMSDKListener
+import com.tencent.imsdk.v2.V2TIMUserFullInfo
+import com.tencent.imsdk.v2.V2TIMUserStatus
 import com.tencent.qcloud.tuicore.TUILogin
 import com.worldpeak.chnsmilead.MyApp
 import com.worldpeak.chnsmilead.R
@@ -150,7 +155,48 @@ class LoginActivity : BaseVmVBActivity<LoginViewModel, ActivityLoginBinding>() {
     }
 
     override fun loadData() {
+        init()
+    }
 
+    private fun init() {
+        val config = V2TIMSDKConfig()
+        config.logLevel = V2TIMSDKConfig.V2TIM_LOG_INFO
+        val listener = object : V2TIMSDKListener() {
+            override fun onConnecting() {
+                super.onConnecting()
+                Log.e("tag", "onConnecting\n正在连接到腾讯云服务器\n")
+            }
+
+            override fun onConnectSuccess() {
+                super.onConnectSuccess()
+                Log.e("tag", "已经成功连接到腾讯云服务器")
+            }
+
+            override fun onConnectFailed(code: Int, error: String) {
+                super.onConnectFailed(code, error)
+                Log.e("tag", "连接腾讯云服务器失败")
+            }
+
+            override fun onKickedOffline() {
+                super.onKickedOffline()
+                Log.e("tag", "当前用户被踢下线")
+            }
+
+            override fun onUserSigExpired() {
+                super.onUserSigExpired()
+                Log.e("tag", "登录票据已经过期")
+            }
+
+            override fun onSelfInfoUpdated(info: V2TIMUserFullInfo) {
+                super.onSelfInfoUpdated(info)
+                Log.e("tag", "当前用户的资料发生了更新")
+            }
+
+            override fun onUserStatusChanged(userStatusList: List<V2TIMUserStatus>) {
+                super.onUserStatusChanged(userStatusList)
+            }
+        }
+        TUILogin.init(this, Utils.timAppId, config, listener)
     }
 
     override fun onResume() {
