@@ -3,6 +3,7 @@ package com.worldpeak.chnsmilead.contact
 import android.graphics.Color
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
+import com.tencent.qcloud.tuikit.tuiconversation.classicui.page.TUIConversationFragment
 import com.worldpeak.chnsmilead.R
 import com.worldpeak.chnsmilead.base.BaseViewModel
 import com.worldpeak.chnsmilead.base.BaseVmVBFragment

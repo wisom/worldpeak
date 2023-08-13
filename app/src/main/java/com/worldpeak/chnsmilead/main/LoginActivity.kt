@@ -11,6 +11,8 @@ import android.text.method.PasswordTransformationMethod
 import android.view.View
 import androidx.lifecycle.Observer
 import com.blankj.utilcode.util.ToastUtils
+import com.bumptech.glide.util.Util
+import com.tencent.qcloud.tuicore.TUILogin
 import com.worldpeak.chnsmilead.MyApp
 import com.worldpeak.chnsmilead.R
 import com.worldpeak.chnsmilead.activity.MainActivity
@@ -26,6 +28,7 @@ import com.worldpeak.chnsmilead.util.CSClickableSpan
 import com.worldpeak.chnsmilead.util.ConfigurationManager
 import com.worldpeak.chnsmilead.util.SPUtils
 import com.worldpeak.chnsmilead.util.StatusBarUtil
+import com.worldpeak.chnsmilead.util.Utils
 import com.worldpeak.chnsmilead.util.WXUtil
 import com.worldpeak.chnsmilead.util.setPreventDoubleClickListener
 import org.greenrobot.eventbus.Subscribe
@@ -147,6 +150,7 @@ class LoginActivity : BaseVmVBActivity<LoginViewModel, ActivityLoginBinding>() {
     }
 
     override fun loadData() {
+
     }
 
     override fun onResume() {

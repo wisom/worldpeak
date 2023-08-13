@@ -14,6 +14,8 @@ import com.tencent.imsdk.v2.V2TIMSDKConfig;
 import com.tencent.imsdk.v2.V2TIMSDKListener;
 import com.tencent.imsdk.v2.V2TIMUserFullInfo;
 import com.tencent.imsdk.v2.V2TIMUserStatus;
+import com.tencent.qcloud.tuicore.TUILogin;
+import com.tencent.qcloud.tuicore.interfaces.TUICallback;
 import com.worldpeak.chnsmilead.MyApp;
 import com.worldpeak.chnsmilead.R;
 import com.worldpeak.chnsmilead.base.BaseViewModel;
@@ -210,7 +212,6 @@ public class LoginViewModel extends BaseViewModel {
     private void startIM(UserInfo user) {
 //        String userSig = GenerateTestUserSig.genTestUserSig(user.getId());
 //        Log.e("Tag", "userSig: " + user.getImUserSign() + "| " + userSig + " | userId = " + user.getId());
-
         V2TIMManager.getInstance().login(user.getId(), user.getImUserSign(), new V2TIMCallback() {
             @Override
             public void onSuccess() {

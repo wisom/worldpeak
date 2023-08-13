@@ -16,34 +16,6 @@ import com.worldpeak.chnsmilead.oa.model.ContactOrgItem
 
 class OaMsgViewModel : BaseViewModel() {
     var contactList = MutableLiveData<List<ContactOrgItem>>()
-
-    init {
-        getContactListByIm()
-    }
-
-    private fun getContactListByIm() {
-        V2TIMManager.getConversationManager().getConversationList(
-            0,
-            100,
-            object : V2TIMValueCallback<V2TIMConversationResult> {
-                override fun onSuccess(v2TIMConversationResult: V2TIMConversationResult) {
-                    val nextSeq = v2TIMConversationResult.nextSeq
-                    Log.e(
-                        "imsdk",
-                        "success nextSeq:" + nextSeq + ", isFinish:" + v2TIMConversationResult.isFinished
-                    )
-                    val v2TIMConversationList = v2TIMConversationResult.conversationList
-                    for (v2TIMConversation in v2TIMConversationList) {
-                        Log.e("imsdk", "success showName:" + v2TIMConversation.showName)
-                    }
-                }
-
-                override fun onError(code: Int, desc: String) {
-                    Log.e("imsdk", "failure, code:$code, desc:$desc")
-                }
-            })
-    }
-
     private fun getContactList() {
         CommonRequest.getInstance().getContactList(object : RetrofitListener<BaseResponse<*>> {
             override fun onSuccess(data: BaseResponse<*>?) {

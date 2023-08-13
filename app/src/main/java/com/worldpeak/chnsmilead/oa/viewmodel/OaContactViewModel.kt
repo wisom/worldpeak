@@ -15,16 +15,13 @@ class OaContactViewModel : BaseViewModel() {
     private val TAG = "OaContactViewModel=="
     var contactList = MutableLiveData<List<ContactOrgItem>>()
 
-    public fun getContactList() {
+    fun getContactList() {
         CommonRequest.getInstance().getContactList(object : RetrofitListener<BaseResponse<*>> {
             override fun onSuccess(data: BaseResponse<*>?) {
                 if (data != null && data.isSuccessful) {
                     val list = data.getResultList(
                         ContactOrgItem::class.java
                     )
-                    list.forEach {
-                        Log.e("tag", "用户列表 = ${it.name} | ${it.id} | ${it.toString()}")
-                    }
                     contactList.postValue(list)
                 } else {
                     showToast(data?.msg ?: "请求错误")
