@@ -12,6 +12,8 @@ import com.tencent.imsdk.v2.V2TIMSDKConfig;
 import com.tencent.imsdk.v2.V2TIMSDKListener;
 import com.tencent.imsdk.v2.V2TIMUserFullInfo;
 import com.tencent.imsdk.v2.V2TIMUserStatus;
+import com.tencent.qcloud.tuicore.TUILogin;
+import com.tencent.qcloud.tuicore.interfaces.TUICallback;
 import com.worldpeak.chnsmilead.MyApp;
 import com.worldpeak.chnsmilead.R;
 import com.worldpeak.chnsmilead.base.BaseViewModel;
@@ -28,6 +30,7 @@ import com.worldpeak.chnsmilead.util.ConfigurationManager;
 import com.worldpeak.chnsmilead.util.LogUtil;
 import com.worldpeak.chnsmilead.util.SPUtils;
 import com.worldpeak.chnsmilead.util.Utils;
+import com.worldpeak.chnsmilead.util.tui.TUIConstants;
 
 import java.util.List;
 
@@ -156,7 +159,7 @@ public class LoginViewModel extends BaseViewModel {
     private void startIM(UserInfo user) {
 //        String userSig = GenerateTestUserSig.genTestUserSig(user.getId());
 //        Log.e("Tag", "userSig: " + user.getImUserSign() + "| " + userSig + " | userId = " + user.getId());
-        V2TIMManager.getInstance().login(user.getId(), user.getImUserSign(), new V2TIMCallback() {
+        TUILogin.login(MyApp.getContext(), Utils.timAppId, user.getId(), user.getImUserSign(), new TUICallback() {
             @Override
             public void onSuccess() {
                 ConfigurationManager.instance().setBoolean(Constants.PREF_KEY_IM_ERROR_STATUS, false);
@@ -165,9 +168,9 @@ public class LoginViewModel extends BaseViewModel {
             }
 
             @Override
-            public void onError(int i, String s) {
+            public void onError(int errorCode, String errorMessage) {
                 ConfigurationManager.instance().setBoolean(Constants.PREF_KEY_IM_ERROR_STATUS, true);
-                ToastUtils.showShort(s);
+                ToastUtils.showShort(errorMessage);
             }
         });
     }
