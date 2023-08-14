@@ -8,10 +8,16 @@ import android.text.TextUtils
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.LinkMovementMethod
 import android.text.method.PasswordTransformationMethod
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import com.blankj.utilcode.util.ToastUtils
-import com.tencent.bugly.crashreport.CrashReport
+import com.tencent.imsdk.v2.V2TIMManager
+import com.tencent.imsdk.v2.V2TIMSDKConfig
+import com.tencent.imsdk.v2.V2TIMSDKListener
+import com.tencent.imsdk.v2.V2TIMUserFullInfo
+import com.tencent.imsdk.v2.V2TIMUserStatus
+import com.tencent.qcloud.tuicore.TUILogin
 import com.worldpeak.chnsmilead.MyApp
 import com.worldpeak.chnsmilead.R
 import com.worldpeak.chnsmilead.activity.MainActivity
@@ -23,9 +29,16 @@ import com.worldpeak.chnsmilead.event.GetWxCodeEvent
 import com.worldpeak.chnsmilead.login.WxBindActivity
 import com.worldpeak.chnsmilead.main.viewmodel.LoginViewModel
 import com.worldpeak.chnsmilead.mine.activity.FindPwdActivity
-import com.worldpeak.chnsmilead.util.*
+import com.worldpeak.chnsmilead.util.CSClickableSpan
+import com.worldpeak.chnsmilead.util.ConfigurationManager
+import com.worldpeak.chnsmilead.util.SPUtils
+import com.worldpeak.chnsmilead.util.StatusBarUtil
+import com.worldpeak.chnsmilead.util.Utils
+import com.worldpeak.chnsmilead.util.WXUtil
+import com.worldpeak.chnsmilead.util.setPreventDoubleClickListener
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+
 
 @UseEventBus
 class LoginActivity : BaseVmVBActivity<LoginViewModel, ActivityLoginBinding>() {
@@ -99,9 +112,17 @@ class LoginActivity : BaseVmVBActivity<LoginViewModel, ActivityLoginBinding>() {
         mBinding.tvAgree.movementMethod = LinkMovementMethod.getInstance()
         mBinding.tvAgree.text = SpannableString(descStr).apply {
             if (descStr.contains(descLightStr) && descStr.indexOf(descLightStr) != -1) {
-                setSpan(CSClickableSpan(Color.parseColor("#04B0EF"), View.OnClickListener {
-                    startActivityForResult(Intent(this@LoginActivity, ProtocolActivity::class.java), REQUEST_CODE)
-                }), descStr.indexOf(descLightStr), descStr.indexOf(descLightStr) + descLightStr.length, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
+                setSpan(
+                    CSClickableSpan(Color.parseColor("#04B0EF"), View.OnClickListener {
+                        startActivityForResult(
+                            Intent(this@LoginActivity, ProtocolActivity::class.java),
+                            REQUEST_CODE
+                        )
+                    }),
+                    descStr.indexOf(descLightStr),
+                    descStr.indexOf(descLightStr) + descLightStr.length,
+                    Spannable.SPAN_INCLUSIVE_EXCLUSIVE
+                )
             }
         }
         mBinding.ivWechatLogin.setPreventDoubleClickListener {
@@ -110,7 +131,8 @@ class LoginActivity : BaseVmVBActivity<LoginViewModel, ActivityLoginBinding>() {
                 ToastUtils.showShort("请同意用户隐私政策")
                 return@setPreventDoubleClickListener
             }
-            ConfigurationManager.instance().setString(Constants.PREF_KEY_URL, Constants.SERVER_URL_ORIGIN)
+            ConfigurationManager.instance()
+                .setString(Constants.PREF_KEY_URL, Constants.SERVER_URL_ORIGIN)
             val accessToken = spUtils.getString(Constants.PREF_KEY_WX_ACCESSTOKEN)
             if (TextUtils.isEmpty(accessToken)) {
                 WXUtil.sendAuth()
@@ -133,6 +155,48 @@ class LoginActivity : BaseVmVBActivity<LoginViewModel, ActivityLoginBinding>() {
     }
 
     override fun loadData() {
+        init()
+    }
+
+    private fun init() {
+        val config = V2TIMSDKConfig()
+        config.logLevel = V2TIMSDKConfig.V2TIM_LOG_INFO
+        val listener = object : V2TIMSDKListener() {
+            override fun onConnecting() {
+                super.onConnecting()
+                Log.e("tag", "onConnecting\n正在连接到腾讯云服务器\n")
+            }
+
+            override fun onConnectSuccess() {
+                super.onConnectSuccess()
+                Log.e("tag", "已经成功连接到腾讯云服务器")
+            }
+
+            override fun onConnectFailed(code: Int, error: String) {
+                super.onConnectFailed(code, error)
+                Log.e("tag", "连接腾讯云服务器失败")
+            }
+
+            override fun onKickedOffline() {
+                super.onKickedOffline()
+                Log.e("tag", "当前用户被踢下线")
+            }
+
+            override fun onUserSigExpired() {
+                super.onUserSigExpired()
+                Log.e("tag", "登录票据已经过期")
+            }
+
+            override fun onSelfInfoUpdated(info: V2TIMUserFullInfo) {
+                super.onSelfInfoUpdated(info)
+                Log.e("tag", "当前用户的资料发生了更新")
+            }
+
+            override fun onUserStatusChanged(userStatusList: List<V2TIMUserStatus>) {
+                super.onUserStatusChanged(userStatusList)
+            }
+        }
+        TUILogin.init(this, Utils.timAppId, config, listener)
     }
 
     override fun onResume() {

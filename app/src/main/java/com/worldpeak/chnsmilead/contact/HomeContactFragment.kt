@@ -3,6 +3,7 @@ package com.worldpeak.chnsmilead.contact
 import android.graphics.Color
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
+import com.tencent.qcloud.tuikit.tuiconversation.classicui.page.TUIConversationFragment
 import com.worldpeak.chnsmilead.R
 import com.worldpeak.chnsmilead.base.BaseViewModel
 import com.worldpeak.chnsmilead.base.BaseVmVBFragment
@@ -29,12 +30,13 @@ class HomeContactFragment : BaseVmVBFragment<BaseViewModel, FragmentHomeContactB
     }
 
     private fun initViewPager() {
-        var mFragmentList = mutableListOf<Fragment>()
-        mFragmentList.add(OaMsgFragment())
-        mFragmentList.add(OaContactFragment())
         activity?.let {
-            mBinding.vpContact.adapter = HomeViewPagerAdapter(it, mFragmentList)
-            mBinding.vpContact.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            mBinding.vpContact.adapter = HomeViewPagerAdapter(
+                it,
+                mutableListOf<Fragment>(OaMsgFragment(), OaContactFragment())
+            )
+            mBinding.vpContact.registerOnPageChangeCallback(object :
+                ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
                     super.onPageSelected(position)
                     switchTab(position)
@@ -55,6 +57,7 @@ class HomeContactFragment : BaseVmVBFragment<BaseViewModel, FragmentHomeContactB
                 mBinding.tvMsg.setTextColor(Color.parseColor("#027AFF"))
                 mBinding.tvGroup.setTextColor(Color.parseColor("#000000"))
             }
+
             1 -> {
                 mBinding.tvGroup.setTextColor(Color.parseColor("#027AFF"))
                 mBinding.tvMsg.setTextColor(Color.parseColor("#000000"))

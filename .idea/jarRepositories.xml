@@ -66,5 +66,10 @@
       <option name="name" value="maven6" />
       <option name="url" value="https://developer.huawei.com/repo/" />
     </remote-repository>
+    <remote-repository>
+      <option name="id" value="maven6" />
+      <option name="name" value="maven6" />
+      <option name="url" value="https://mirrors.tencent.com/nexus/repository/maven-public/" />
+    </remote-repository>
   </component>
 </project>
