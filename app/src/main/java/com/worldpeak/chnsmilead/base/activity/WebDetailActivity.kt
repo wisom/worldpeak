@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import com.umeng.socialize.ShareAction
+import com.umeng.socialize.UMShareAPI
 import com.umeng.socialize.UMShareListener
 import com.umeng.socialize.bean.SHARE_MEDIA
 import com.umeng.socialize.media.UMImage
@@ -13,7 +14,7 @@ import com.worldpeak.chnsmilead.base.BaseViewModel
 import com.worldpeak.chnsmilead.base.BaseVmVBActivity
 import com.worldpeak.chnsmilead.databinding.ActivityWebDetailBinding
 import com.worldpeak.chnsmilead.util.StatusBarUtil
-import com.worldpeak.chnsmilead.util.SystemUtils
+
 
 class WebDetailActivity : BaseVmVBActivity<BaseViewModel, ActivityWebDetailBinding>() {
     private val url by lazy {
@@ -84,4 +85,10 @@ class WebDetailActivity : BaseVmVBActivity<BaseViewModel, ActivityWebDetailBindi
         }
 
     }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data)
+    }
+
 }
