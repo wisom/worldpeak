@@ -59,6 +59,7 @@
         tools:replace="android:allowBackup,android:icon, android:theme">
         <activity
             android:name=".oa.activity.GroupListActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
 
         <meta-data
@@ -271,6 +272,7 @@
         <!-- ############ QQ空间和QQ SSO授权的Activity注册 ############ -->
         <activity
             android:name="com.tencent.tauth.AuthActivity"
+            android:exported="true"
             android:launchMode="singleTask"
             android:noHistory="true">
             <intent-filter>
