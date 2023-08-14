@@ -13,13 +13,14 @@ import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
+import com.umeng.socialize.weixin.view.WXCallbackActivity;
 import com.worldpeak.chnsmilead.MyApp;
 import com.worldpeak.chnsmilead.event.GetWxCodeEvent;
 import com.worldpeak.chnsmilead.util.WXUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
-public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
+public class WXEntryActivity extends WXCallbackActivity implements IWXAPIEventHandler {
 
     public static final String TAG = "WXEntryActivity";
     private static final int RETURN_MSG_TYPE_LOGIN = 1;

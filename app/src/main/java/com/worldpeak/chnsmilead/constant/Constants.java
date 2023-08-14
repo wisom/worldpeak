@@ -92,5 +92,13 @@ public class Constants {
 
     public static final String BUGLY_APPID="0994bc577b";//bugly的appid
     public static final String BUGLY_APPKEY="75193ca5-f4ed-47c8-a314-ed6693911724";//bugly的appkey
+
+    public static final String UMENG_APPKEY="64d9c336ab920c276a2e4b41";//umeng的appkey
+
+    public static final String QQ_APP_ID ="102060909";//qq的app id
+    public static final String QQ_APP_KEY="xrY2KOFtJVUFm5A1";//qq的appkey
+
+
+
 }
 

@@ -26,8 +26,12 @@ import com.tencent.bugly.crashreport.CrashReport;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+import com.tencent.tauth.Tencent;
+import com.umeng.commonsdk.UMConfigure;
 import com.worldpeak.chnsmilead.constant.Constants;
+import com.worldpeak.chnsmilead.share.UmInitConfig;
 import com.worldpeak.chnsmilead.util.ConfigurationManager;
+import com.worldpeak.chnsmilead.util.SPUtils;
 
 public class MyApp extends Application {
 
@@ -64,6 +68,7 @@ public class MyApp extends Application {
 
         initBugly();
         initGetui();
+        initUmeng();
 
     }
 
@@ -77,6 +82,23 @@ public class MyApp extends Application {
     private void initGetui() {
         PushManager.getInstance().initialize(getContext());
     }
+
+    private void initUmeng() {
+        //设置LOG开关，默认为false
+        UMConfigure.setLogEnabled(true);
+        //友盟预初始化  appkey:59892f08310c9307b60023d0 channel
+        UMConfigure.preInit(getApplicationContext(),Constants.UMENG_APPKEY,"Umeng");
+        //您务必确保用户同意《隐私政策》之后，再初始化友盟+SDK。
+
+//        if(SPUtils.getInstance().contains("uminit")).equals("")){
+            //在用户阅读您的《隐私政策》并取得用户授权之后，才调用正式初始化函数UMConfigure.init()初始化统计SDK
+            //友盟正式初始化
+            UmInitConfig.UMinit(getApplicationContext());
+            //QQ官方sdk授权
+            Tencent.setIsPermissionGranted(true);
+         Log.d("umeng", "qqpromition");
+        }
+//    }
 
     private static IWXAPI api = null;
 
