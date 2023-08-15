@@ -1,14 +1,18 @@
 package com.worldpeak.chnsmilead.base.activity
 
 import android.annotation.SuppressLint
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
+import android.widget.Toast
 import com.umeng.socialize.ShareAction
 import com.umeng.socialize.UMShareAPI
 import com.umeng.socialize.UMShareListener
 import com.umeng.socialize.bean.SHARE_MEDIA
 import com.umeng.socialize.media.UMImage
 import com.umeng.socialize.media.UMWeb
+import com.umeng.socialize.shareboard.SnsPlatform
+import com.umeng.socialize.utils.ShareBoardlistener
 import com.worldpeak.chnsmilead.R
 import com.worldpeak.chnsmilead.base.BaseViewModel
 import com.worldpeak.chnsmilead.base.BaseVmVBActivity
@@ -56,14 +60,10 @@ class WebDetailActivity : BaseVmVBActivity<BaseViewModel, ActivityWebDetailBindi
         url?.let { mBinding.webview.loadUrl(it) }
         mBinding.titleBar.setRightIconClick{
 //            startActivity(SystemUtils.getShareTextIntent(url))
-            val umImage = UMImage(this, R.mipmap.ic_launcher)
-            val umWeb = UMWeb(url)
-            umWeb.title = title
-            umWeb.setThumb(umImage)
 
-         ShareAction(this).withMedia(umWeb).setDisplayList(SHARE_MEDIA.QQ,SHARE_MEDIA.WEIXIN,SHARE_MEDIA.WEIXIN_CIRCLE)
-             .addButton("复制链接", "复制链接", url, url)
-             .setCallback(shareListner).open()
+         ShareAction(this).setDisplayList(SHARE_MEDIA.QQ,SHARE_MEDIA.WEIXIN,SHARE_MEDIA.WEIXIN_CIRCLE)
+             .addButton("复制链接", "复制链接", "umeng_socialize_copyurl", "umeng_socialize_copyurl")
+             .setShareboardclickCallback(shareBoardlistener).open()
 
         }
     }
@@ -71,11 +71,12 @@ class WebDetailActivity : BaseVmVBActivity<BaseViewModel, ActivityWebDetailBindi
     override fun loadData() {
     }
 
-    private val shareListner = object :UMShareListener{
+    private var shareListener:UMShareListener? = object :UMShareListener{
         override fun onStart(p0: SHARE_MEDIA?) {
         }
 
         override fun onResult(p0: SHARE_MEDIA?) {
+
         }
 
         override fun onError(p0: SHARE_MEDIA?, p1: Throwable?) {
@@ -86,9 +87,41 @@ class WebDetailActivity : BaseVmVBActivity<BaseViewModel, ActivityWebDetailBindi
 
     }
 
+    var shareBoardlistener:ShareBoardlistener? = object :ShareBoardlistener{
+        override fun onclick(snsPlatform: SnsPlatform?, share_media: SHARE_MEDIA?) {
+
+           if (snsPlatform?.mShowWord == "复制链接") {
+               val cm = this@WebDetailActivity.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+               // 将文本内容放到系统剪贴板里。
+               // 将文本内容放到系统剪贴板里。
+               cm.text = url
+                Toast.makeText(this@WebDetailActivity, "复制链接按钮", Toast.LENGTH_LONG).show()
+            } else {
+               val umImage = UMImage(this@WebDetailActivity, R.mipmap.ic_launcher)
+               val umWeb = UMWeb(url)
+               umWeb.title = title
+               umWeb.setThumb(umImage)
+
+               ShareAction(this@WebDetailActivity).withMedia(umWeb)
+                    .setPlatform(share_media)
+                    .setCallback(shareListener)
+                    .share()
+            }
+        }
+
+
+    }
+
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        shareBoardlistener = null
+        shareListener = null
     }
 
 }

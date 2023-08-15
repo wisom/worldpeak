@@ -96,7 +96,6 @@ public class MyApp extends Application {
             UmInitConfig.UMinit(getApplicationContext());
             //QQ官方sdk授权
             Tencent.setIsPermissionGranted(true);
-         Log.d("umeng", "qqpromition");
         }
 //    }
 
