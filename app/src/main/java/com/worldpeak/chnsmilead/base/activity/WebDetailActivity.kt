@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
+import android.webkit.WebChromeClient
+import android.webkit.WebView
 import android.widget.Toast
 import com.umeng.socialize.ShareAction
 import com.umeng.socialize.UMShareAPI
@@ -56,6 +58,12 @@ class WebDetailActivity : BaseVmVBActivity<BaseViewModel, ActivityWebDetailBindi
     override fun initView() {
         super.initView()
         mBinding.webview.settings.javaScriptEnabled = true;
+        mBinding.webview.webChromeClient = object :WebChromeClient(){
+            override fun onReceivedTitle(view: WebView?, title: String?) {
+                mBinding.webview.copyBackForwardList().currentItem?.title
+            }
+        };
+
         title?.let { mBinding.titleBar.setTitle(it) }
         url?.let { mBinding.webview.loadUrl(it) }
         mBinding.titleBar.setRightIconClick{

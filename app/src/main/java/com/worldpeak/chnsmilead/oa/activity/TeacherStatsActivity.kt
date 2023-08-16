@@ -198,8 +198,8 @@ class TeacherStatsActivity :
         data.barWidth = uiParams.barWidthScale
         data.setDrawValues(false)
         mBinding.barChart.apply {
-            setData(data)
             renderer = TeacherSchoolCountBarChartRender(uiParams, this, animator, viewPortHandler)
+            setData(data)
             isHighlightPerTapEnabled = false
             isHighlightPerDragEnabled = false
             description.isEnabled = false
