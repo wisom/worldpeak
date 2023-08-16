@@ -7,6 +7,7 @@ import android.content.Intent
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.widget.Toast
+import com.blankj.utilcode.util.ToastUtils
 import com.umeng.socialize.ShareAction
 import com.umeng.socialize.UMShareAPI
 import com.umeng.socialize.UMShareListener
@@ -30,6 +31,8 @@ class WebDetailActivity : BaseVmVBActivity<BaseViewModel, ActivityWebDetailBindi
     private val title by lazy {
         intent.getStringExtra(EXTRA_TITLE)
     }
+
+    private var description:String? = ""
 
     companion object {
         const val EXTRA_URL = "EXTRA_URL"
@@ -60,6 +63,8 @@ class WebDetailActivity : BaseVmVBActivity<BaseViewModel, ActivityWebDetailBindi
         mBinding.webview.settings.javaScriptEnabled = true;
         mBinding.webview.webChromeClient = object :WebChromeClient(){
             override fun onReceivedTitle(view: WebView?, title: String?) {
+                description = title
+                ToastUtils.showLong(description)
             }
         };
 
@@ -100,13 +105,13 @@ class WebDetailActivity : BaseVmVBActivity<BaseViewModel, ActivityWebDetailBindi
            if (snsPlatform?.mShowWord == "复制链接") {
                val cm = this@WebDetailActivity.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
                // 将文本内容放到系统剪贴板里。
-               // 将文本内容放到系统剪贴板里。
                cm.text = url
                 Toast.makeText(this@WebDetailActivity, "复制链接按钮", Toast.LENGTH_LONG).show()
             } else {
                val umImage = UMImage(this@WebDetailActivity, R.mipmap.ic_launcher)
                val umWeb = UMWeb(url)
                umWeb.title = title
+               umWeb.description = description
                umWeb.setThumb(umImage)
 
                ShareAction(this@WebDetailActivity).withMedia(umWeb)
