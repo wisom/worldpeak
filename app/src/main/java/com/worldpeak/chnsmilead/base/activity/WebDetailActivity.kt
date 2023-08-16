@@ -60,7 +60,6 @@ class WebDetailActivity : BaseVmVBActivity<BaseViewModel, ActivityWebDetailBindi
         mBinding.webview.settings.javaScriptEnabled = true;
         mBinding.webview.webChromeClient = object :WebChromeClient(){
             override fun onReceivedTitle(view: WebView?, title: String?) {
-                mBinding.webview.copyBackForwardList().currentItem?.title
             }
         };
 
